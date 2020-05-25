@@ -26,7 +26,7 @@
 						<nav id="nav">
 							<ul>
 								<li class="active"><a href="../index.jsp">Homepage</a></li>
-								<li><a href="../left-sidebar.html">Left Sidebar</a></li>
+								<li><a href="../imgBoard/imgboard.jsp">갤러리</a></li>
 								<li><a href="../board.jsp">커뮤니티 게시판</a></li>
 								<li><a href="fileBoard.jsp">자료실</a></li>
 								<%
