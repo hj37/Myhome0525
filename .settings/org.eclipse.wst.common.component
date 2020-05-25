@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Hojin_page12332">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="mysql-connector-java-8.0.17.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/mysql-connector-java-8.0.17/mysql-connector-java-8.0.17">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-pool2-2.4.2.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/commons-pool2-2.4.2/commons-pool2-2.4.2">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="activation.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/activation/activation">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jai_codec.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/jai_codec/jai_codec">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-dbcp2-2.1.1.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/commons-dbcp2-2.1.1/commons-dbcp2-2.1.1">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cos.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/cos/cos">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-collections4-4.1.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/commons-collections4-4.1/commons-collections4-4.1">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="mail.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/mail/mail">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jai_core.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/jai_core/jai_core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="Hojin_page12332"/>
+        <property name="java-output-path" value="/Hojin_page12332/build/classes"/>
+    </wb-module>
+</project-modules>
