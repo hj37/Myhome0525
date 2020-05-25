@@ -72,7 +72,7 @@ public class FileDAO {
 					//insert SQL문만들기 
 					sql = "insert into file(fileName,fileRealName,downloadCount,"
 							+ "name,date,"
-							+ "subject,cotent,num)"
+							+ "subject,content,num)"
 							+ "values(?,?,?,?,now(),?,?,?)";
 					
 					pstmt = con.prepareStatement(sql);
@@ -82,7 +82,7 @@ public class FileDAO {
 					pstmt.setString(4, dto.getName());
 					pstmt.setString(5, dto.getSubject());
 					pstmt.setString(6, dto.getContent());		
-					pstmt.setInt(7, dto.getNum());	
+					pstmt.setInt(7, num);	
 			
 					pstmt.executeUpdate();	//insert실
 					
@@ -100,6 +100,60 @@ public class FileDAO {
 			}//insertBoard
 			
 			
+			//글 하나의 정보를 검색하여 글정보를 제공해주는 메소드 
+			public FileDTO getFileBoard(int num) {
+					
+
+				//매개변수로 전달 받은 글 번호에 해당하는 글을 검색해서 저장할 BoardDto객체 생성
+				FileDTO dto = new FileDTO();
+				try {
+					//커넥션풀로 커넥션 얻기(DB접속) 
+					con = getConnection();
+					
+					//매개변수로 전달 받은 글번호에 해당 되는 글 하나의 정보를 검색하는 SELECT구문 만들기 
+					String sql = "select * from file where num = ?";	
+					//?기호 해당되는 값을 제외한 나머지 SELECT문장을 저장한? PreparedStatement실행 객체 얻기
+					pstmt = con.prepareStatement(sql);
+					//?기호에 해당되는 글번호를 설정
+					pstmt.setInt(1, num);
+					//SELECT구문 실행한 후 검색된 글 하나의 정보를 ResultSet에 저장 후 반환 받기
+					rs = pstmt.executeQuery();
+					
+					//ResultSet임시 저장소에 검색한 데이터(글 하나의 정보)가 존재하면?
+					if(rs.next()) {
+						//ResultSet에서 검색한 글의 정보들을 꺼내와서 BoardDto객체의 각 변수에 저장  
+						dto.setFileName(rs.getString(1));
+						dto.setFileRealName(rs.getString(2));
+						dto.setDownloadCount(rs.getInt(3));
+						dto.setName(rs.getString(4));
+						
+						dto.setDate(rs.getTimestamp(5));
+						dto.setSubject(rs.getString(6));
+						dto.setContent(rs.getString(7));
+						dto.setNum(rs.getInt(8));
+					
+					}
+					
+				} catch (Exception e) {
+					
+					System.out.println("getFileBoard메소드 내부에서 오류 : " + e.getMessage());
+					
+				}finally {
+					if(rs != null) try{rs.close();}catch(Exception e) {e.printStackTrace();}
+					if(pstmt != null) try{pstmt.close();}catch(Exception e) {e.printStackTrace();}
+					if(con != null) try{con.close();}catch(Exception e) {e.printStackTrace();}
+				}
+				
+				return dto;	//DB로부터 검색한 하나의 글정보를 BoardDto객체에 저장 후 Update.jsp로 반환
+
+			}
+			
+			
+			
+			
+			
+			
+			
 			public int getFileBoardCount() {
 				String sql ="";
 				int count = 0; //검색한 전체 글수를 저장할 용도
@@ -112,10 +166,10 @@ public class FileDAO {
 					rs = pstmt.executeQuery(); //select문 실행 
 					
 					if(rs.next()) {
-						count = rs.getInt(8); //검색한 전체 글 개수 얻기 
+						count = rs.getInt(1); //검색한 전체 글 개수 얻기 
 					}
 				}catch(Exception e) {
-					System.out.println("getBoardCount메소드에서 예외발생 : "+e);
+					System.out.println("getFileBoardCount메소드에서 예외발생 : "+e);
 				}finally {
 					try {
 						if(rs != null) {rs.close();}
@@ -129,9 +183,9 @@ public class FileDAO {
 			}		
 			
 			
-			public List<FileDTO> getBoardList(int startRow,int pageSize){
+			public List<FileDTO> getFileBoardList(int startRow,int pageSize){
 				String sql = "";
-				List<BoardBean> boardList = new ArrayList<BoardBean>();
+				List<FileDTO> boardList = new ArrayList<FileDTO>();
 				
 				try {
 					//DB연결 
@@ -140,7 +194,7 @@ public class FileDAO {
 					//SQL문 만들기 
 					//정렬 re_ref 내림차순 정렬하여 검색한 후 re_seq 오름차순정렬하여 검색해 오는데 
 					//limit 각 페이지마다 맨위에 첫번째로 보여질 시작글 번호, 한 페이지당 보여줄 글개수 
-					sql = "select * from board order by num desc limit ?,?";
+					sql = "select * from file order by num desc limit ?,?";
 					
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, startRow);
@@ -149,26 +203,24 @@ public class FileDAO {
 					rs = pstmt.executeQuery();
 					
 					while(rs.next()) {
-						BoardBean bBean = new BoardBean();
 						//rs=> BoardBean에 저장 
-						 bBean.setContent(rs.getString("content"));
-						 bBean.setDate(rs.getTimestamp("date"));
-						 bBean.setIp(rs.getString("ip"));
-						 bBean.setName(rs.getString("name"));
-						 bBean.setNum(rs.getInt("num"));
-						 bBean.setPasswd(rs.getString("passwd"));
-						 bBean.setRe_lev(rs.getInt("re_lev"));
-						 bBean.setRe_ref(rs.getInt("re_ref"));
-						 bBean.setRe_seq(rs.getInt("re_seq"));
-						 bBean.setReadcount(rs.getInt("readcount"));
-						 bBean.setSubject(rs.getString("subject"));
-						 
-						 //BoardBean => ArrayList에 추가 
-						 
-						 boardList.add(bBean);
+						
+						FileDTO dto = new FileDTO();
+						
+						dto.setFileName(rs.getString("fileName"));
+						dto.setFileRealName(rs.getString("fileRealName"));
+						dto.setDownloadCount(rs.getInt("downloadCount"));
+						dto.setName(rs.getString("name"));
+						
+						dto.setDate(rs.getTimestamp("date"));
+						dto.setSubject(rs.getString("subject"));
+						dto.setContent(rs.getString("content"));
+						dto.setNum(rs.getInt("num"));
+												 
+						boardList.add(dto);
 					}//while반복
 				}catch (Exception e) {
-					System.out.println("getBoardList메소드에서 예외발생 : " +e);
+					System.out.println("getFileBoardList메소드에서 예외발생 : " +e);
 					// TODO: handle exception
 				}finally {
 					try {
@@ -185,7 +237,36 @@ public class FileDAO {
 	
 	
 	
-	
+			/*검색어를 전달받아 검색어에 해당하는 글개수를 DB로부터 가져와서 글개수 리턴 */
+			public int getFileCount(String search) {
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql = "";
+				int count = 0;
+				try {
+					//1, 2디비연결 
+					con = getConnection();
+					//3 sql 검색어에 해당하는 게시판 글개수 가져오기 count(*) 
+					sql = "select count(*) from file where subject like ?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+ search + "%");
+					//4 rs 실행저장
+					rs = pstmt.executeQuery();
+					//5 rs데이터 있으면 count 저장
+					if(rs.next()) {
+						count = rs.getInt(8);
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}finally {
+					if(rs != null)try {rs.close();} catch(SQLException ex) {}
+					if(pstmt != null) try {pstmt.close();} catch(SQLException ex) {}
+					if(con != null) try {con.close();} catch(SQLException ex) {}
+				}	
+				return count;
+			}
 			
 	
 	public int hit(String fileRealName) {

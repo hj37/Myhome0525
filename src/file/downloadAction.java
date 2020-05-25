@@ -22,7 +22,7 @@ public class downloadAction extends HttpServlet {
 
 		String fileName = request.getParameter("file");
 		
-		String directory = "/Users/hojin/Desktop/jsp/upload";
+		String directory = "C:/upload";
 		File file = new File(directory + "/" + fileName);
 	
 		String mimeType = getServletContext().getMimeType(file.toString());

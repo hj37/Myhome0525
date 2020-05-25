@@ -197,7 +197,7 @@
 				//[이전] 시작페이지 번호가 한 화면에 보여줄 페이지수보다 클때...
 				if(startPage > pageBlock){
 		%>
-					<a href="board.jsp?pageNum=<%=startPage-pageBlock%>">[이전]</a>
+					<a href="board.jsp?pageNum=<%=startPage-pageBlock%>">[<%=startPage-pageBlock%>]</a>
 		<% 			
 				}
 				//[1][2][3]...[10]
@@ -209,7 +209,7 @@
 				//[다음] 끝페이지 번호가 전체 페이지수보다 작을때..
 				if(endPage < pageCount){
 		%>
-				<a href="board.jsp?pageNum=<%=startPage + pageBlock%>">[다음]</a>
+				<a href="board.jsp?pageNum=<%=startPage + pageBlock%>">[<%=startPage + pageBlock%>]</a>
 		<% 
 				}
 			

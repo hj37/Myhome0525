@@ -1,3 +1,5 @@
+<%@page import="file.FileDAO"%>
+<%@page import="file.FileDTO"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="board.BoardBean"%>
 <%@page import="java.util.List"%>
@@ -17,14 +19,14 @@
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
  
-  		<script src="js/jquery.min.js"></script>
-		<script src="js/jquery.dropotron.min.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/skel-layers.min.js"></script>
-		<script src="js/init.js"></script>
-			<link rel="stylesheet" href="css/skel.css" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-wide.css" />
+  		<script src="../js/jquery.min.js"></script>
+		<script src="../js/jquery.dropotron.min.js"></script>
+		<script src="../js/skel.min.js"></script>
+		<script src="../js/skel-layers.min.js"></script>
+		<script src="../js/init.js"></script>
+			<link rel="stylesheet" href="../css/skel.css" />
+			<link rel="stylesheet" href="../css/style.css" />
+			<link rel="stylesheet" href="../css/style-wide.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		 
 	<style type="text/css">
@@ -42,7 +44,7 @@
 
 #table_search input {
 	padding: 5px;
-	width: 100%;
+	width:100%;
 	font-size: 18px;
 }
 
@@ -60,28 +62,34 @@
 </style>
 
 <%
-	//한글처리 
+//한글처리 
 	request.setCharacterEncoding("utf-8");
 	//search 가져오기 
 	String search = request.getParameter("search");
+	//게시판 목록 검색해오기 
+	FileDAO dao = new FileDAO();
+	//전체 글 개수 얻기 
+	int count = dao.getFileBoardCount();
 
-	
-	//전체 글 개수 검색해서 얻자
-	BoardDAO boardDAO = new BoardDAO();
-	
-	int count=boardDAO.getCount(search);
-	
 	//하나의 화면(한 페이지)마다 보여줄 글 개수 10개로 정함
 	int pageSize = 10;
-	
-	//현재 보여질(선택한) 페이지번호 가져오기 .	
+
+	//아래의 페이지 번호 중 선택한 페이지 번호 얻기 
+
 	String pageNum = request.getParameter("pageNum");
-	//현재보여질(선택한) 페이지번호가 없으면 1페이지 처리 	
+%>
+	<script>
+		console.log(<%=pageNum%>);
+	</script>
+		
+	<%	
+	//아래의 페이지번호 중 선택한 페이지번호가 없으면, 첫 notice.jsp 화면은 1페이지로 지정 
+	
 	if(pageNum == null){
 		pageNum = "1";
 	}
 	
-	//현재 보여질(선택한) 페이지번호 "1"을 -> 기본정수 1로 변경 
+	//위의 pageNum 변수의 값을 정수로 변환해서 저장 
 	int currentPage = Integer.parseInt(pageNum); //현재 선택한 페이지 번호를 정수로 변환해서 저장 
 	
 	//각 페이지마다 가장 첫 번째로 보여질 시작 글 번호 구하기 
@@ -89,31 +97,38 @@
 	int startRow = (currentPage - 1) * pageSize;
 	
 	//board게시판 테이블의 글 정보들을 검색하여 가져와서 저장할 ArrayList객체를 저장할 변수 선언
-	List<BoardBean> list = null;
+	List<FileDTO> list = null;
 	
 	//만약 게시판에 글이 존재한다면
 	if(count > 0){
 		//글정보 검색해오기 
 		//getBoardList(각 페이지마다 첫 번째로 보여지는 시작 글 번호,한 페이지당 보여줄 글개수)
-		list = boardDAO.getBoardList(startRow, pageSize, search);
+		list = dao.getFileBoardList(startRow, pageSize);
 	}
-	
-	//날짜 포맷
-	SimpleDateFormat sdf = new SimpleDateFormat("yyy.MM.dd");
+
+
+
+
+
+
+
 %>
 	
+
 	</head>
 	<body>
 
 		<!-- Wrapper -->
 			<div class="wrapper style1">
 				<!-- Header -->
-								<jsp:include page="header.jsp"/>
-					
+						<jsp:include page="header.jsp"/>
+				
+			
+			
 							<!-- Banner -->
 					<div id="banner" class="container">
 						<section>
-							<p><a href="board.jsp">롯데 자이언츠 커뮤니티 게시판</a></p>
+							<p><a href="fileBoard.jsp">롯데 자이언츠 자료실 게시판</a></p>
 						</section>
 					</div>
 			
@@ -124,21 +139,21 @@
 	    			<th  scope="col">Title</th>
 	    			<th  scope="col">Name</th>	    			
 				    <th  scope="col">Date</th>
-				    <th  scope="col">Read</th>
+				    <th  scope="col">FileName</th>
 				    </tr>
 			  </thead>
 			  <tbody>
 			  <%
 			  	if(count > 0){	//만약 board게시판테이블에 글이 존재한다면
 			  		for(int i = 0; i < list.size(); i++){
-			 			BoardBean bean = list.get(i);
+			 			FileDTO dto = list.get(i);
 			  %>
-			   <tr onclick="location.href='content.jsp?num=<%=bean.getNum()%>&pageNum=<%=pageNum%>'">
-			    <td><%=bean.getNum() %></td>
- 				<td><%=bean.getSubject() %></td>
- 				<td><%=bean.getName() %></td>
-			    <td><%=new SimpleDateFormat("yyyy.MM.dd").format(bean.getDate()) %></td>
-			    <td><%=bean.getReadcount() %></td>		
+			   <tr onclick="location.href='fileContent.jsp?num=<%=dto.getNum()%>&pageNum=<%=pageNum%>'">
+			    <td><%=dto.getNum() %></td>
+ 				<td><%=dto.getSubject() %></td>
+ 				<td><%=dto.getName() %></td>
+			    <td><%=new SimpleDateFormat("yyyy.MM.dd").format(dto.getDate()) %></td>
+			    <td><%=dto.getFileRealName() %></td>		
 			   </tr>
 <%
 			  		}
@@ -184,19 +199,19 @@
 				//[이전] 시작페이지 번호가 한 화면에 보여줄 페이지수보다 클때...
 				if(startPage > pageBlock){
 		%>
-					<a href="boardSearch.jsp?pageNum=<%=startPage-pageBlock%>&search=<%=search%>">[<%=startPage-pageBlock%>]</a>
+					<a href="fileBoardSearch.jsp?pageNum=<%=startPage-pageBlock%>&search=<%=search%>">[<%=startPage-pageBlock%>]</a>
 		<% 			
 				}
 				//[1][2][3]...[10]
 				for(int i = startPage; i <=endPage; i++){
 		%>
-				<a href="boardSearch.jsp?pageNum=<%=i%>&search=<%=search%>">[<%=i%>]</a>
+				<a href="fileBoardSearch.jsp?pageNum=<%=i%>&search=<%=search%>">[<%=i%>]</a>
 		<% 
 				}
 				//[다음] 끝페이지 번호가 전체 페이지수보다 작을때..
 				if(endPage < pageCount){
 		%>
-				<a href="boardSearch.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>">[<%=startPage + pageBlock%>]</a>
+				<a href="fileBoardSearch.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>">[<%=startPage + pageBlock%>]</a>
 		<% 
 				}
 			
@@ -204,14 +219,13 @@
 		
 		%>
 		</div>			
-	
 	<div id="table_search">
-	<form action= "boardSearch.jsp">
+	<form action= "fileBoardSearch.jsp">
 	<input type="text" name="search" class="input_box">
 	<input type="submit" value="search" class="btn">
 	</form>
-	</div>
 	<br>
+
 	
 	
 	<%
@@ -222,7 +236,6 @@
 
 	if(id != null){	//셰션영역에 id값이 저장되어 있다면
 %>
-	<div id="table_search">
 		<input type="button" value="글쓰기" class="btn" onclick="location.href='write.jsp'">
 	</div>
 <% 
@@ -231,8 +244,7 @@
 	</div>
 
     	<!-- Copyright -->
-				<jsp:include page="bottom.jsp"/>
-
+		<jsp:include page="bottom.jsp"/>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

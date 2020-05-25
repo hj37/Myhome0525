@@ -23,14 +23,14 @@
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
  
-  		<script src="js/jquery.min.js"></script>
-		<script src="js/jquery.dropotron.min.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/skel-layers.min.js"></script>
-		<script src="js/init.js"></script>
-			<link rel="stylesheet" href="css/skel.css" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-wide.css" />
+  		<script src="../js/jquery.min.js"></script>
+		<script src="../js/jquery.dropotron.min.js"></script>
+		<script src="../js/skel.min.js"></script>
+		<script src="../js/skel-layers.min.js"></script>
+		<script src="../js/init.js"></script>
+			<link rel="stylesheet" href="../css/skel.css" />
+			<link rel="stylesheet" href="../css/style.css" />
+			<link rel="stylesheet" href="../css/style-wide.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 		
 				 
@@ -64,7 +64,7 @@
 	
 	//session영역에 저장된 값이 없으면
 	if(id == null){
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("../login.jsp");
 	}
 
 %>
@@ -82,7 +82,7 @@
 
 <div class="container">
 	<div class="row">
-	<form action="writePro.jsp" method="post">
+	<form action="uploadAction.jsp" method="post" enctype="multipart/form-data">
 	<table class="table table-hover" id="tb" style="text-align:center; border: 1px solid white;" bgcolor = "white">
 	<thead>
 				<tr>
@@ -90,13 +90,10 @@
 				</tr>
 	</thead>
 	<tbody>	
+	
 	<tr>
-			<td>아이디</td>
-			<td colspan="2"><input type="text" name="name" value="<%=id%>" readonly></td>
-	</tr>
-	<tr>
-			<td>비밀번호</td>
-			<td colspan="2"><input type="password" name="passwd"></td>
+			<td>이름</td>
+			<td colspan="2"><input type="text" name="name"></td>
 	</tr>
 	<tr>
 			<td>제목</td>
@@ -106,13 +103,26 @@
 			<td>글내용</td>
 			<td  colspan="2"><textarea name="content" rows="13" cols="40"></textarea></td>
 	</tr>
+	<tr>
+			<td>파일</td>
+			<td  colspan="2"><input type="file" name="file"></td>
+	</tr>
+	<tr>
+			<td>파일</td>
+			<td  colspan="2"><input type="file" name="file2"></td>
+	</tr>
+	<tr>
+			<td>파일</td>
+			<td  colspan="2"><input type="file" name="file3"></td>
+	</tr>
+	
 	
 </tbody>
 </table>
 <div id = "table_search" style="text-align: center">
-<input type="submit" value="글쓰기" class="btn">
+<input type="submit" value="파일업로드" class="btn">
 			<input type="reset" value="다시작성" class="btn">
-			<input type="button" value="글목록" class="btn" onclick="location.href='board.jsp'">
+			<input type="button" value="글목록" class="btn" onclick="location.href='fileBoard.jsp'">
 </div>
 </form>
 </div>
