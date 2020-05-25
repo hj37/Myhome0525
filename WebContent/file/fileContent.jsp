@@ -85,6 +85,7 @@
 	int DBnum = dto.getNum();
 	String DBName = dto.getName(); //작성자
 	Timestamp DBDate = dto.getDate();	//작성일
+	String FileRealName = dto.getFileRealName();
 	String DBSubject = dto.getSubject(); // 글제목 
 	String DBContent = "";	//글내용 
 	//글내용이 존재 한다면  // 내용 엔터 처리 
@@ -137,7 +138,8 @@
 	</tr>
 	<tr>
 		<td>글내용</td>
-		<td colspan="2" style="min-height: 200px; text-align: left"><%=DBContent %></td>
+		<td colspan="2" style="min-height: 200px; text-align: left"><%=DBContent %>
+		</td>
 	</tr>
 	
 	<tr>

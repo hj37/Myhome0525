@@ -76,7 +76,7 @@
 							<!-- Banner -->
 					<div id="banner" class="container">
 						<section>
-							<p>롯데 자이언츠 커뮤니티 게시판</p>
+							<p>롯데 자이언츠 자료실 게시판</p>
 						</section>
 					</div>
 
@@ -86,7 +86,7 @@
 	<table class="table table-hover" id="tb" style="text-align:center; border: 1px solid white;" bgcolor = "white">
 	<thead>
 				<tr>
-					<th colspan="3" style="background-color:#eeeeee; text-align: center;">게시판 글쓰기 양식 </th>
+					<th colspan="3" style="background-color:#eeeeee; text-align: center;">자료실 글 작성 </th>
 				</tr>
 	</thead>
 	<tbody>	
@@ -120,7 +120,7 @@
 </tbody>
 </table>
 <div id = "table_search" style="text-align: center">
-<input type="submit" value="파일업로드" class="btn">
+<input type="submit" value="업로드" class="btn">
 			<input type="reset" value="다시작성" class="btn">
 			<input type="button" value="글목록" class="btn" onclick="location.href='fileBoard.jsp'">
 </div>

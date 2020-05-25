@@ -44,7 +44,7 @@
 		
 		if(fileName == null) continue;
 		
-		if(!fileName.endsWith(".jpg") && !fileName.endsWith(".hwp") && 
+		if(!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && 
 				!fileName.endsWith(".pdf") && !fileName.endsWith(".xls")){
 			File file = new File(directory + fileRealName);
 			file.delete();
@@ -52,7 +52,7 @@
 
 		<script>
 		window.alert("저장할 수 없는 확장자입니다.");
-		history().back();
+		history.back();
 		</script>
 <% 
 					

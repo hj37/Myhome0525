@@ -27,8 +27,8 @@
 							<ul>
 								<li class="active"><a href="index.jsp">Homepage</a></li>
 								<li><a href="left-sidebar.html">Left Sidebar</a></li>
-								<li><a href="right-sidebar.html">Right Sidebar</a></li>
 								<li><a href="board.jsp">커뮤니티 게시판</a></li>
+								<li><a href="./file/fileBoard.jsp">자료실</a></li>
 								<%
 									if("".equals(session.getAttribute("id")) || session.getAttribute("id") == null){
 							

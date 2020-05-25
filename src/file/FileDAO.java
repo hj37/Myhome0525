@@ -268,6 +268,59 @@ public class FileDAO {
 				return count;
 			}
 			
+			
+			
+			public List<FileDTO> getSearchFileList(int startRow, int pageSize, String search){
+				List<FileDTO> boardList = new ArrayList<FileDTO>();
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql = "";
+				try {
+					//1, 2디비연결 
+					con = getConnection();
+					//3 sql 전체 데이터 가져오기 
+					// 글제목에 앞뒤에 어떤문자가 와도 상관없이 keyWord(검색어)를 가진 데이터를 ...
+					//검색하는데...
+					//정렬 re_ref 내림차순 re_seq 오름차순 정렬하여...
+					//limit 각페이지마다 맨위에 첫번째로 보여질 시작글번호부터 ~, 한페이지당 보여줄 글개수만큼 검색함.
+					sql = "select * from file where subject like ? limit ?,?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%" + search + "%");	//'%안녕 %'
+					pstmt.setInt(2, startRow);
+					pstmt.setInt(3, pageSize);
+					//4. rs 실행 저장 
+					rs = pstmt.executeQuery();
+					
+					//5 while 데이터 있으면 BoardBean객체 생성 
+					//rs => 자바빈 => boardList 한 칸 저장 
+					while(rs.next()) {
+						FileDTO dto = new FileDTO();
+						dto.setFileName(rs.getString("fileName"));
+						dto.setFileRealName(rs.getString("fileRealName"));
+						dto.setDownloadCount(rs.getInt("downloadCount"));
+						dto.setName(rs.getString("name"));
+						
+						dto.setDate(rs.getTimestamp("date"));
+						dto.setSubject(rs.getString("subject"));
+						dto.setContent(rs.getString("content"));
+						dto.setNum(rs.getInt("num"));
+						boardList.add(dto);
+					}
+					
+					
+				}catch (Exception e) {
+					e.printStackTrace();
+				}finally {
+					if(rs != null)try {rs.close();} catch(SQLException ex) {}
+					if(pstmt != null) try {pstmt.close();} catch(SQLException ex) {}
+					if(con != null) try {con.close();} catch(SQLException ex) {}
+				}
+				return boardList;
+			}
+			
+			
+			
 	
 	public int hit(String fileRealName) {
 		try {

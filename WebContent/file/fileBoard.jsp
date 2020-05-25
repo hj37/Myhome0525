@@ -71,6 +71,8 @@
 	int pageSize = 10;
 
 	//아래의 페이지 번호 중 선택한 페이지 번호 얻기 
+	
+
 
 	String pageNum = request.getParameter("pageNum");
 %>
@@ -232,7 +234,7 @@
 
 	if(id != null){	//셰션영역에 id값이 저장되어 있다면
 %>
-		<input type="button" value="글쓰기" class="btn" onclick="location.href='write.jsp'">
+		<input type="button" value="글쓰기" class="btn" onclick="location.href='fileWrite.jsp'">
 	</div>
 <% 
 	}

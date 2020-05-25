@@ -103,7 +103,7 @@
 	if(count > 0){
 		//글정보 검색해오기 
 		//getBoardList(각 페이지마다 첫 번째로 보여지는 시작 글 번호,한 페이지당 보여줄 글개수)
-		list = dao.getFileBoardList(startRow, pageSize);
+		list = dao.getSearchFileList(startRow, pageSize, search);
 	}
 
 
@@ -236,7 +236,7 @@
 
 	if(id != null){	//셰션영역에 id값이 저장되어 있다면
 %>
-		<input type="button" value="글쓰기" class="btn" onclick="location.href='write.jsp'">
+		<input type="button" value="글쓰기" class="btn" onclick="location.href='fileWrite.jsp'">
 	</div>
 <% 
 	}
