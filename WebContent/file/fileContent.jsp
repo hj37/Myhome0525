@@ -143,7 +143,7 @@
 	<tr>
 		<td>파일 다운로드</td>
 		<td><% 
-		out.write("<a href=\"" + request.getContextPath() + "/fileContent?file=" + 
+		out.write("<a href=\"" + request.getContextPath() + "/downloadAction?file=" + 
 				URLEncoder.encode(dto.getFileRealName(),"UTF-8") + "\">" +
 				dto.getFileName() + "(다운로드 횟수 : " + dto.getDownloadCount() + ")</a><br>");
 		%></td>

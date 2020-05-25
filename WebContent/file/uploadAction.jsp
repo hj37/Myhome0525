@@ -16,19 +16,23 @@
 <body>
 	<%
 		String directory = "C:/upload/";
-		String name = request.getParameter("name");
-		String subject = request.getParameter("subject");
 		int maxSize = 1024 * 1024 * 100;
 		String encoding = "UTF-8";
 		
 		FileDTO dto =  new FileDTO();		
-		dto.setName(name);
-		
-		
+	
 		MultipartRequest multipartRequest
 		= new MultipartRequest(request,directory,maxSize,encoding,
 				new DefaultFileRenamePolicy());
 		
+		String name = multipartRequest.getParameter("name");
+		String subject = multipartRequest.getParameter("subject");
+		String content = multipartRequest.getParameter("content");
+		
+		dto.setName(name);
+		dto.setSubject(subject);
+		dto.setContent(content);
+
 	Enumeration fileNames = multipartRequest.getFileNames();
 	while(fileNames.hasMoreElements()){
 		
@@ -44,12 +48,23 @@
 				!fileName.endsWith(".pdf") && !fileName.endsWith(".xls")){
 			File file = new File(directory + fileRealName);
 			file.delete();
-			out.write("업로드할 수 없는 확장자입니다.");
-			
+%>
+
+		<script>
+		window.alert("저장할 수 없는 확장자입니다.");
+		history().back();
+		</script>
+<% 
+					
 		}else{
 			new FileDAO().insertFileBoard(dto);
-			out.write("파일명: " + fileName + "<br>");
-			out.write("실제 파일명:" + fileRealName + "<br>");
+%>
+			<script>
+				window.alert("업로드 되었습니다.");
+				location.href='fileBoard.jsp';
+			</script>
+
+<% 
 		}
 	}
 	%>
