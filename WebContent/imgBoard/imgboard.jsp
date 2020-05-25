@@ -1,3 +1,7 @@
+<%@page import="java.util.List"%>
+<%@page import="img.ImgDTO"%>
+
+<%@page import="img.ImgDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -22,6 +26,63 @@
 			<link rel="stylesheet" href="../css/style.css" />
 			<link rel="stylesheet" href="../css/style-wide.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	
+<%
+	//게시판 목록 검색해오기 
+	ImgDAO dao = new ImgDAO();
+
+	//전체 글 개수 얻기 
+	int count = dao.getImgBoardCount();
+
+	//하나의 화면(한 페이지)마다 보여줄 글 개수 10개로 정함
+	int pageSize = 10;
+
+	//아래의 페이지 번호 중 선택한 페이지 번호 얻기 
+
+	String pageNum = request.getParameter("pageNum");
+%>
+	<script>
+		console.log(<%=pageNum%>);
+	</script>
+		
+	<%	
+	//아래의 페이지번호 중 선택한 페이지번호가 없으면, 첫 notice.jsp 화면은 1페이지로 지정 
+	
+	if(pageNum == null){
+		pageNum = "1";
+	}
+	
+	//위의 pageNum 변수의 값을 정수로 변환해서 저장 
+	int currentPage = Integer.parseInt(pageNum); //현재 선택한 페이지 번호를 정수로 변환해서 저장 
+	
+	//각 페이지마다 가장 첫 번째로 보여질 시작 글 번호 구하기 
+	//(현재 보여지는 페이지번호 - 1) * 한페이지당 보여줄 글 개수 10
+	int startRow = (currentPage - 1) * pageSize;
+	
+	//board게시판 테이블의 글 정보들을 검색하여 가져와서 저장할 ArrayList객체를 저장할 변수 선언
+	List<ImgDTO> list = null;
+	
+	//만약 게시판에 글이 존재한다면
+	if(count > 0){
+		//글정보 검색해오기 
+		//getBoardList(각 페이지마다 첫 번째로 보여지는 시작 글 번호,한 페이지당 보여줄 글개수)
+		list = boardDAO.getBoardList(startRow, pageSize);
+	}
+
+
+	%>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	</head>
 	<body>
 
