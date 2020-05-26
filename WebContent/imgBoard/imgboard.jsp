@@ -66,7 +66,7 @@
 	if(count > 0){
 		//글정보 검색해오기 
 		//getBoardList(각 페이지마다 첫 번째로 보여지는 시작 글 번호,한 페이지당 보여줄 글개수)
-		list = boardDAO.getBoardList(startRow, pageSize);
+		list = dao.getImgBoardList(startRow, pageSize);
 	}
 
 

@@ -20,7 +20,7 @@
 <body>
 <div id="header" class="skel-panels-fixed">
 						<div id="logo">
-							<h1><a href="../index.jsp">Giants</a></h1>
+							<h1><a href="index.jsp">Giants</a></h1>
 							<span class="tag">커뮤니티게시판</span>
 						</div>
 						<nav id="nav">
@@ -33,15 +33,15 @@
 									if("".equals(session.getAttribute("id")) || session.getAttribute("id") == null){
 							
 								%>
-								<li><a href="../login.jsp">Login</a></li>
+								<li><a href="login.jsp">Login</a></li>
 								<%
 									}else{
 										%>
-								<li><a href="../logout.jsp">Logout</a></li>
+								<li><a href="logout.jsp">Logout</a></li>
 										<% 
 									}
 								%>
-								<li><a href="../mypage.jsp">Mypage</a></li>
+								<li><a href="mypage.jsp">Mypage</a></li>
 								
 							</ul>
 						</nav>
