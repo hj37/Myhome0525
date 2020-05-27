@@ -49,9 +49,9 @@
 	RenderedOp rOp = JAI.create("fileload", pb);
 	
 	BufferedImage bi = rOp.getAsBufferedImage();
-	BufferedImage thumb = new BufferedImage(100,100,BufferedImage.TYPE_INT_RGB);
+	BufferedImage thumb = new BufferedImage(300,300,BufferedImage.TYPE_INT_RGB);
 	Graphics2D g = thumb.createGraphics();
-	g.drawImage(bi, 0, 0, 100,100,null);
+	g.drawImage(bi, 0, 0, 300,300,null);
 	File file = new File(imagePath + "/sm_" + filename);
 	ImageIO.write(thumb,"jpg",file);
 	ImgDAO dao = new ImgDAO();

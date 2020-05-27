@@ -26,6 +26,26 @@
 			<link rel="stylesheet" href="../css/style.css" />
 			<link rel="stylesheet" href="../css/style-wide.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+<style type="text/css">
+#table_search {
+	margin: auto;
+	width: 50%;
+}
+
+#table_search input {
+	padding: 5px;
+	width:100%;
+	font-size: 18px;
+}
+
+#paging {
+	text-align: center;
+	font-size: 2em;
+	font-style: normal;
+	margin: 1em;
+	
+}
+</style>
 	
 <%
 	//게시판 목록 검색해오기 
@@ -91,8 +111,12 @@
 									for(int i = 0; i < list.size(); i++){
 							 			ImgDTO dto = list.get(i);
 							%>
-								<section class="4u"> <img src="../image/<%=dto.getFileRealName()%>" alt="">
-									<input type="button" value="<%=dto.getSubject() %>" onclick="location.href='fileContent.jsp?num=<%=dto.getNum()%>&pageNum=<%=pageNum%>'">
+								<section class="4u" onclick="location.href='fileContent.jsp?num=<%=dto.getNum()%>&pageNum=<%=pageNum%>'">
+								<img src="../image/<%=dto.getFileRealName() %>" style = "display: block;">
+								<div class="box" style="width: 300px; padding-top: 0px; padding-bottom: 0px; margin-bottom: 30px;">
+ 								<a href="#" class="button"> <%=dto.getSubject() %></a> 
+								</div>
+<%-- 									<input type="button" value="<%=dto.getSubject() %>" onclick="location.href='fileContent.jsp?num=<%=dto.getNum()%>&pageNum=<%=pageNum%>'"> --%>
 								</section>
 							<%
 								}//for문 
