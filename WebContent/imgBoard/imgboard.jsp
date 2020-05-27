@@ -35,7 +35,7 @@
 	int count = dao.getImgBoardCount();
 
 	//하나의 화면(한 페이지)마다 보여줄 글 개수 10개로 정함
-	int pageSize = 10;
+	int pageSize = 6;
 
 	//아래의 페이지 번호 중 선택한 페이지 번호 얻기 
 
@@ -70,19 +70,7 @@
 	}
 
 
-	%>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+%>		
 	</head>
 	<body>
 
@@ -98,45 +86,114 @@
 					<div id="extra">
 						<div class="container">
 							<div class="row no-collapse-1">
-								<section class="4u"> <a href="#" class="image featured"><img src="../images/pic01.jpg" alt=""></a>
-									<div class="box">
-										<a href="#" class="button">Read More</a> </div>
+							<%
+								if(count > 0){
+									for(int i = 0; i < list.size(); i++){
+							 			ImgDTO dto = list.get(i);
+							%>
+								<section class="4u"> <img src="../image/<%=dto.getFileRealName()%>" alt="">
+									<input type="button" value="<%=dto.getSubject() %>" onclick="location.href='fileContent.jsp?num=<%=dto.getNum()%>&pageNum=<%=pageNum%>'">
 								</section>
-								<section class="4u"> <a href="#" class="image featured"><img src="../images/pic02.jpg" alt=""></a>
+							<%
+								}//for문 
+									
+								}else{
+							%>
+									<section class="4u"> <a href="#" class="image featured"><img src="../images/pic01.jpg" width="50px" height="10px" alt=""></a>
 									<div class="box">
-										<a href="#" class="button">Read More</a> </div>
-								</section>
-								<section class="4u"> <a href="#" class="image featured"><img src="../images/pic03.jpg" alt=""></a>
-									<div class="box">
-										<a href="#" class="button">Read More</a> </div>
-								</section>
-							</div>
-							<div class="row no-collapse-1">
-								<section class="4u"> <a href="#" class="image featured"><img src="../images/pic01.jpg" alt=""></a>
-									<div class="box">
-										<a href="#" class="button">Read More</a> </div>
-								</section>
-								<section class="4u"> <a href="#" class="image featured"><img src="../images/pic02.jpg" alt=""></a>
-									<div class="box">
-										<a href="#" class="button">Read More</a> </div>
-								</section>
-								<section class="4u"> <a href="#" class="image featured"><img src="../images/pic03.jpg" alt=""></a>
-									<div class="box">
-										<a href="#" class="button">Read More</a> </div>
-								</section>
+										<a href="#" class="button">해당하는 글이 없습니다.</a> </div>
+									</section>
+							<% 	
+								}
+							
+							%>
 							</div>
 						</div>
 					</div>
 
 				
 
+	<div id="paging" >
+		<%	
+			if(count > 0){
+				//전체 페이지수 구하기 글 20개 한 페이지에 보여줄 글 수 10개 => 2페이지 
+				// 				글 25개 한 페이지에 보여줄 글 수 10개 -> 3페이지 
+				//조건 삼항 연산자 조건 ? 참 : 거짓 
+				//전체 페이지수 = 전체 글 개수 한 페이지에 보여줄 글 수 + (전체글수를 한페이지에 보여줄 글수로 나눈 나머지 값)
+				int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+				//한 블럭에 묶여질 페이지번호수 설정 
+				int pageBlock = 1;
+				
+				//시작페이지 번호 구하기 
+				// 1 ~ 10 => 1 , 11~ 20 =>11 , 21 ~ 30 => 21 
+				//((선택한 페이지번호/ 한 블럭에 보여지는 페이지번호 수) - 
+				//(선택한 페이지번호를 한 화면에 보여줄 페이지수로 나눈 나머지 값)) * 한 블럭에 보여줄 페이지수 + 1;
+		int startPage = 
+		((currentPage/pageBlock) - (currentPage % pageBlock == 0 ? 1 : 0 )) * pageBlock + 1; 
+		
+				//끝페이지 번호 구하기 1 ~ 10 => 10 , 11 ~ 20 => 20, 21 ~ 30 => 30 
+				//시작페이지번호 + 현재블럭에 보여줄 페이지수 - 1	
+				int endPage = startPage + pageBlock -1;
+				
+				//끝페이지 번호가 전체페이지수보다 클때 
+				if(endPage > pageCount){
+					//끝페이지 번호를 전체페이지수로 저장 
+					endPage = pageCount;
+				}
+				
+				//[이전] 시작페이지 번호가 한 화면에 보여줄 페이지수보다 클때...
+				if(startPage > pageBlock){
+		%>
+					<a href="imgboard.jsp?pageNum=<%=startPage-pageBlock%>"> [<%=startPage-pageBlock%>]</a>
+		<% 			
+				}
+				//[1][2][3]...[10]
+				for(int i = startPage; i <=endPage; i++){
+		%>
+				<a href="imgboard.jsp?pageNum=<%=i%>">[<%=i%>]</a>
+		<% 
+				}
+				//[다음] 끝페이지 번호가 전체 페이지수보다 작을때..
+				if(endPage < pageCount){
+		%>
+				<a href="imgboard.jsp?pageNum=<%=startPage + pageBlock%>"> [<%=startPage + pageBlock%>]</a>
+		<% 
+				}
+			
+			}
+		
+		%>
+		</div>			
+	<div id="table_search">
+	<form action= "imgboardsearch.jsp">
+	<input type="text" name="search" class="input_box">
+	<input type="submit" value="search" class="btn">
+	</form>
+	<br>
+
+	
+	
+	<%
+	//각각페이지에서 이동을 했을떄.. 하나의 웹브라우저가 닫기기전까지 session영역이 유지되므로 
+	//session영역에 값이 저장되어 있다면 로그인이 된 상태로 아래에... 글쓰기 버튼이 보이게 만들자.
+	
+	String id = (String)session.getAttribute("id");
+
+	if(id != null){	//셰션영역에 id값이 저장되어 있다면
+%>
+		<input type="button" value="글쓰기" class="btn" onclick="location.href='imgWrite.jsp'">
 	</div>
+<% 
+	}
+%>
+	</div>
+	
 
 	<!-- Footer -->
 	
 		<!-- Copyright -->
 		<jsp:include page="bottom.jsp"/>
-
+	
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

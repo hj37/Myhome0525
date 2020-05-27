@@ -1,4 +1,5 @@
 
+<%@page import="img.ImgDAO"%>
 <%@page import="img.ImgDTO"%>
 <%@page language="java" contentType="text/html; charset=UTF-8"%>
 <%@page import="java.io.File"%>
@@ -25,9 +26,20 @@
 	try{
 		MultipartRequest multi = new MultipartRequest(request,imagePath,size,"UTF-8",new DefaultFileRenamePolicy());
 		
+		String name = multi.getParameter("name");
+		String subject = multi.getParameter("subject");
+		String content = multi.getParameter("content");
+		
+		dto.setName(name);
+		dto.setSubject(subject);
+		dto.setContent(content);
+		
 		Enumeration files = multi.getFileNames();
 		String file = (String)files.nextElement();
 		filename = multi.getFilesystemName(file);
+		dto.setFileName(filename);
+		dto.setFileRealName("sm_" + filename);
+		
 	}catch(Exception e){
 		e.printStackTrace();
 	}
@@ -42,6 +54,8 @@
 	g.drawImage(bi, 0, 0, 100,100,null);
 	File file = new File(imagePath + "/sm_" + filename);
 	ImageIO.write(thumb,"jpg",file);
+	ImgDAO dao = new ImgDAO();
+	dao.insertImgBoard(dto);
 %>
 <!DOCTYPE html>
 <html>
@@ -50,9 +64,9 @@
 <title>Insert title here</title>
 </head>
 <body>
--원본 이미지-<br>
-<img src="../image/<%=filename %>"><p>
--썸네일 이미지-<br>
-<img src="../image/sm_<%= filename %>">
+<script>
+				window.alert("업로드 되었습니다.");
+				location.href='imgboard.jsp';
+</script>
 </body>
 </html>

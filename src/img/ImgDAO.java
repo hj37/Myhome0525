@@ -52,10 +52,10 @@ public class ImgDAO {
 					
 					
 					//insert SQL문만들기 
-					sql = "insert into file(fileName,fileRealName,count,"
-							+ "name,date,"
-							+ "subject,content,num)"
-							+ "values(?,?,?,?,now(),?,?,?)";
+					sql = "insert into imgboard(fileName,fileRealName,count,"
+							+ " name,date,"
+							+ " subject,content,num)"
+							+ " values(?,?,?,?,now(),?,?,?)";
 					
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, dto.getFileName());
