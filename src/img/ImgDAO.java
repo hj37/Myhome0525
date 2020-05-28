@@ -372,12 +372,13 @@ public class ImgDAO {
 					if(rs.next()) {
 						if(dto.getPwd().equals(rs.getString("passwd"))) {
 							check = 1;
-							sql = "update imgboard set name=?,subject=?,content=? where num =?";
+							sql = "update imgboard set name=?,subject=?,fileName=?,fileRealName where num =?";
 							pstmt = con.prepareStatement(sql);
 							pstmt.setString(1, dto.getName());
 							pstmt.setString(2, dto.getSubject());
-							pstmt.setString(3, dto.getContent());
-							pstmt.setInt(4,dto.getNum());
+							pstmt.setString(3, dto.getFileName());
+							pstmt.setString(4, dto.getFileRealName());
+							pstmt.setInt(5,dto.getNum());
 							//4
 							pstmt.executeUpdate();
 						}
