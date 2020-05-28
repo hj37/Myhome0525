@@ -12,7 +12,7 @@
 -->
 <html>
 	<head>
-		<title>Giants 갤러리</title>
+		<title>Giants 커뮤니티게시판</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -48,6 +48,11 @@
 </style>
 	
 <%
+//한글처리 
+	request.setCharacterEncoding("utf-8");
+	//search 가져오기 
+	String search = request.getParameter("search");
+
 	//게시판 목록 검색해오기 
 	ImgDAO dao = new ImgDAO();
 
@@ -86,7 +91,7 @@
 	if(count > 0){
 		//글정보 검색해오기 
 		//getBoardList(각 페이지마다 첫 번째로 보여지는 시작 글 번호,한 페이지당 보여줄 글개수)
-		list = dao.getImgBoardList(startRow, pageSize);
+		list = dao.getSearchFileList(startRow, pageSize, search);
 	}
 
 
@@ -111,7 +116,7 @@
 									for(int i = 0; i < list.size(); i++){
 							 			ImgDTO dto = list.get(i);
 							%>
-								<section class="4u" >
+								<section class="4u">
 								<img src="../image/<%=dto.getFileRealName() %>" style = "display: block;">
 								<div class="box" style="width: 300px; padding-top: 0px; padding-bottom: 0px; margin-bottom: 30px;">
  								<a href="imgContent.jsp?num=<%=dto.getNum()%>&pageNum=<%=pageNum%>" class="button"> <%=dto.getSubject() %></a> 
@@ -168,19 +173,19 @@
 				//[이전] 시작페이지 번호가 한 화면에 보여줄 페이지수보다 클때...
 				if(startPage > pageBlock){
 		%>
-					<a href="imgboard.jsp?pageNum=<%=startPage-pageBlock%>"> [<%=startPage-pageBlock%>]</a>
+					<a href="imgboardsearch.jsp?pageNum=<%=startPage-pageBlock%>&search=<%=search%>"> [<%=startPage-pageBlock%>]</a>
 		<% 			
 				}
 				//[1][2][3]...[10]
 				for(int i = startPage; i <=endPage; i++){
 		%>
-				<a href="imgboard.jsp?pageNum=<%=i%>">[<%=i%>]</a>
+				<a href="imgboardsearch.jsp?pageNum=<%=i%>&search=<%=search%>">[<%=i%>]</a>
 		<% 
 				}
 				//[다음] 끝페이지 번호가 전체 페이지수보다 작을때..
 				if(endPage < pageCount){
 		%>
-				<a href="imgboard.jsp?pageNum=<%=startPage + pageBlock%>"> [<%=startPage + pageBlock%>]</a>
+				<a href="imgboardsearch.jsp?pageNum=<%=startPage + pageBlock%>&search=<%=search%>"> [<%=startPage + pageBlock%>]</a>
 		<% 
 				}
 			

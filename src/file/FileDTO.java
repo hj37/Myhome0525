@@ -12,9 +12,18 @@ public class FileDTO {
 	private String subject;
 	private String content;
 	private int num;
+	private String pwd;
 	
 	public int getNum() {
 		return num;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
 	public void setNum(int num) {

@@ -29,10 +29,11 @@
 		String name = multi.getParameter("name");
 		String subject = multi.getParameter("subject");
 		String content = multi.getParameter("content");
-		
+		String pwd = multi.getParameter("pwd");
 		dto.setName(name);
 		dto.setSubject(subject);
 		dto.setContent(content);
+		dto.setPwd(pwd);
 		
 		Enumeration files = multi.getFileNames();
 		String file = (String)files.nextElement();

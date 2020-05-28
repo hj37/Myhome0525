@@ -26,7 +26,7 @@
 		request.setCharacterEncoding("UTF-8");
 		
 		//write.jsp에서 쓴 글의 내용을 request객체영역에서 꺼내와서 변수에 각각 저장 
-		String passwd = request.getParameter("passwd");//비밀번호
+		String passwd = request.getParameter("pwd");//비밀번호
 		String subject = request.getParameter("subject");//글제목
 		String content = request.getParameter("content");//글내용
 		String ip = request.getRemoteAddr(); //글쓴이의 IP주소 

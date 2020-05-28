@@ -26,10 +26,12 @@
 				new DefaultFileRenamePolicy());
 		
 		String name = multipartRequest.getParameter("name");
+		String pwd = multipartRequest.getParameter("pwd");
 		String subject = multipartRequest.getParameter("subject");
 		String content = multipartRequest.getParameter("content");
 		
 		dto.setName(name);
+		dto.setPwd(pwd);
 		dto.setSubject(subject);
 		dto.setContent(content);
 

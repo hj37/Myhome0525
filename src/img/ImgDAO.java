@@ -11,6 +11,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import board.BoardBean;
+
 
 public class ImgDAO {
 	Connection con;
@@ -54,8 +56,8 @@ public class ImgDAO {
 					//insert SQL문만들기 
 					sql = "insert into imgboard(fileName,fileRealName,count,"
 							+ " name,date,"
-							+ " subject,content,num)"
-							+ " values(?,?,?,?,now(),?,?,?)";
+							+ " subject,content,num,pwd)"
+							+ " values(?,?,?,?,now(),?,?,?,?)";
 					
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, dto.getFileName());
@@ -65,7 +67,8 @@ public class ImgDAO {
 					pstmt.setString(5, dto.getSubject());
 					pstmt.setString(6, dto.getContent());		
 					pstmt.setInt(7, num);	
-			
+					pstmt.setString(8, dto.getPwd());	
+
 					pstmt.executeUpdate();	//insert실
 					
 				}catch (Exception e) {
@@ -344,5 +347,56 @@ public class ImgDAO {
 				}
 				return list;
 			}
+			
+			/* 수정할 글정보(BoardBean)객체를 전달받아 DB에 있는 패스워드와 일치하면 글 수정 */
+			public int updateImgBoard(ImgDTO dto) {
+				int check = 0;
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql = "";
+				try {
+					//1, 2 디비연결 
+					con = getConnection();
+					//3 sql num에 해당하는 paaswd가져오기 
+					sql="select passwd from imgboard where num=?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, dto.getNum());
+					//4 rs= 실행 저장 
+					rs = pstmt.executeQuery();
+					
+					//5 rs 데이터 있으면 비밀번호 비교 맞으면 check = 1
+					//3 update 테이블 set name, subject,content where num
+					//4. 실행 
+					// 		틀리면 check = 0
+					if(rs.next()) {
+						if(dto.getPwd().equals(rs.getString("passwd"))) {
+							check = 1;
+							sql = "update imgboard set name=?,subject=?,content=? where num =?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, dto.getName());
+							pstmt.setString(2, dto.getSubject());
+							pstmt.setString(3, dto.getContent());
+							pstmt.setInt(4,dto.getNum());
+							//4
+							pstmt.executeUpdate();
+						}
+					}else {
+						check = 0;
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}finally {
+					if(rs != null) try {rs.close();} catch(SQLException ex) {}
+					if(pstmt != null) try {pstmt.close();} catch(SQLException ex) {}
+					if(con != null) try{con.close();}catch(SQLException ex) {}
+				}
+
+				return check;
+			}
+			
+			
+
+			
 			
 }

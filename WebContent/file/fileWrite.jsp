@@ -96,6 +96,11 @@
 			<td colspan="2"><input type="text" name="name"></td>
 	</tr>
 	<tr>
+			<td>비밀번호</td>
+			<td colspan="2"><input type="password" name="pwd"></td>
+	</tr>
+	
+	<tr>
 			<td>제목</td>
 			<td colspan="2"><input type="text" name="subject"></td>
 	</tr>

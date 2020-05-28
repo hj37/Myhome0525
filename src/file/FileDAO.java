@@ -72,8 +72,8 @@ public class FileDAO {
 					//insert SQL문만들기 
 					sql = "insert into file(fileName,fileRealName,downloadCount,"
 							+ "name,date,"
-							+ "subject,content,num)"
-							+ "values(?,?,?,?,now(),?,?,?)";
+							+ "subject,content,num,pwd)"
+							+ "values(?,?,?,?,now(),?,?,?,?)";
 					
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, dto.getFileName());
@@ -83,8 +83,8 @@ public class FileDAO {
 					pstmt.setString(5, dto.getSubject());
 					pstmt.setString(6, dto.getContent());		
 					pstmt.setInt(7, num);	
-			
-					pstmt.executeUpdate();	//insert실
+					pstmt.setString(8, dto.getPwd());
+					pstmt.executeUpdate();	//insert실행
 					
 				}catch (Exception e) {
 					System.out.println("insertFileBoard메서드 내부에서 예외발생하였습니다:" +e.getMessage());

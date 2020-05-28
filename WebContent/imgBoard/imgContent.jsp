@@ -1,3 +1,5 @@
+<%@page import="img.ImgDTO"%>
+<%@page import="img.ImgDAO"%>
 <%@page import="java.io.File"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.ArrayList"%>
@@ -76,16 +78,16 @@
 	String pageNum = request.getParameter("pageNum");
 	
 	//BoardDAO 객체 생성 bdao
-	FileDAO dao = new FileDAO();
+	ImgDAO dao = new ImgDAO();
 	
 	
 	//상세내용을 볼 글에 대한 글번호를 넘겨서 DB로부터 글정보(BoardBean객체) 가져오기
-	FileDTO dto = dao.getFileBoard(num);
+	ImgDTO dto = dao.getFileBoard(num);
 	
 	int DBnum = dto.getNum();
 	String DBName = dto.getName(); //작성자
 	Timestamp DBDate = dto.getDate();	//작성일
-	String FileRealName = dto.getFileRealName();
+	String FileRealName = dto.getFileName();
 	String DBSubject = dto.getSubject(); // 글제목 
 	String DBContent = "";	//글내용 
 	//글내용이 존재 한다면  // 내용 엔터 처리 
@@ -106,7 +108,7 @@
 							<!-- Banner -->
 					<div id="banner" class="container">
 						<section>
-							<p><a href="fileBoard.jsp">롯데 자이언츠 자료실 게시판</a></p>
+							<p><a href="imgboard.jsp">롯데 자이언츠 갤러리</a></p>
 						</section>
 					</div>
 
@@ -115,7 +117,7 @@
 	<table class="table table-hover" id="tb" style="text-align:center; border: 1px solid white;" bgcolor = "white">
 	<thead>
 				<tr>
-					<th colspan="3" style="background-color:#eeeeee; text-align: center;">게시판 글보기 양식 </th>
+					<th colspan="3" style="background-color:#eeeeee; text-align: center;">갤러리 글보기 </th>
 				</tr>
 	</thead>
 	<tbody>	
@@ -137,18 +139,13 @@
 		<td colspan="2"><%=DBDate %></td>
 	</tr>
 	<tr>
-		<td>글내용</td>
-		<td colspan="2" style="min-height: 200px; text-align: left"><%=DBContent %>
+		<td>이미지보기</td>
+		<td colspan="2" style="min-height: 200px; text-align: left">
+		<img src="../image/<%=FileRealName%>" style="width:600px; height:500px">
 		</td>
 	</tr>
 	
 	<tr>
-		<td>파일 다운로드</td>
-		<td><% 
-		out.write("<a href=\"" + request.getContextPath() + "/downloadAction?file=" + 
-				URLEncoder.encode(dto.getFileRealName(),"UTF-8") + "\">" +
-				dto.getFileName() + "(다운로드 횟수 : " + dto.getDownloadCount() + ")</a><br>");
-		%></td>
 	</tr>
 	
 	
@@ -179,7 +176,7 @@ if(id!= null){
 <% 
 }
 %>
-<input type="button" value="목록보기" class="btn" onclick="location.href='fileBoard.jsp?pageNum=<%=pageNum%>'">
+<input type="button" value="목록보기" class="btn" onclick="location.href='imgboard.jsp?pageNum=<%=pageNum%>'">
 </div>
 
 </div>

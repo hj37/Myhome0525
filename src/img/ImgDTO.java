@@ -18,7 +18,14 @@ public class ImgDTO {
 	private String subject;
 	private String content;
 	private int num;
+	private String pwd;
 	
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 	public String getFileName() {
 		return fileName;
 	}
