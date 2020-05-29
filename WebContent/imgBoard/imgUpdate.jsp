@@ -69,6 +69,13 @@
 </head>
 
 <%
+
+	//세션값 가져오기
+	String id=(String)session.getAttribute("id");
+	//세션값이 없으면 login.jsp
+	if(id == null){
+		response.sendRedirect("login.jsp");
+	}
 	/*글 상세보기 페이지 */
 	//notice.jsp페이지에서 글제목을 클릭해서 전달하여 넘어온 num,pageNum 한글처리 
 	request.setCharacterEncoding("UTF-8");
@@ -87,7 +94,7 @@
 	int DBnum = dto.getNum();
 	String DBName = dto.getName(); //작성자
 	Timestamp DBDate = dto.getDate();	//작성일
-	String FileRealName = dto.getFileName();
+	String FileName = dto.getFileName();
 	String DBSubject = dto.getSubject(); // 글제목 
 	String DBContent = "";	//글내용 
 	//글내용이 존재 한다면  // 내용 엔터 처리 
@@ -114,71 +121,58 @@
 
 <div class="container">
 	<div class="row">
+	<form action="updateAction.jsp?pageNum=<%=pageNum %>" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="num" value="<%=num%>">
 	<table class="table table-hover" id="tb" style="text-align:center; border: 1px solid white;" bgcolor = "white">
 	<thead>
 				<tr>
-					<th colspan="3" style="background-color:#eeeeee; text-align: center;">갤러리 글보기 </th>
+					<th colspan="3" style="background-color:#eeeeee; text-align: center;">갤러리 글 수정  </th>
 				</tr>
 	</thead>
 	<tbody>	
 	<tr>
+		<td>이름</td>
+		<td><input type="text" name="name" value="<%=DBName %>"></td>
+	</tr>
+	<tr>
+		<td>비밀번호</td>
+		<td><input type="password" name="pwd"></td>
+	</tr>
+	<tr>
 		<td style="width:20%;">글제목</td>
-		<td colspan="2"><%=DBSubject %></td>
+		<td><input type="text" name="subject" value="<%=DBSubject %>"></td>
 	</tr>
 	<tr>
-		<td>글번호</td>
-		<td colspan="2"><%=DBnum %></td>
+		<td>글내용</td>
+		<td colspan="2" style="min-height: 200px; text-align: left"><textarea name= "content" rows="5" cols= "40"><%=DBContent %></textarea></td>
 	</tr>
 	
 	<tr>
-		<td>작성자</td>
-		<td colspan="2"><%=DBName %></td>
+	<td>
+	<input type="hidden" name="original" value="<%=FileName%>">
+	</td>
 	</tr>
+	
 	<tr>
-		<td>작성일</td>
-		<td colspan="2"><%=DBDate %></td>
-	</tr>
-	<tr>
-		<td>이미지보기</td>
-		<td colspan="2" style="min-height: 200px; text-align: left">
-		<img src="../image/<%=FileRealName%>" style="width:600px; height:500px">
-		</td>
+		<td>이미지 수정</td>
+		<td  colspan="2"><input type="file" name="file" ></td>
 	</tr>
 	
 	<tr>
 	</tr>
 	
-	
-	
-	<%-- <tr>
-		<td style="width:20%;">글번호 </td>
-		<td colspan="2"><%=DBnum %></td>
-		<th scope="col">조회수</th>
-		<td><%=DBReadcount %></td>
-	</tr>
-	<tr>
-		<th scope="col">작성일</th>
-		<td><%=DBDate %></td>
-	</tr> --%>
+
 </tbody>
 </table>
+<div id="table_search" style="text-align:center">
+	<input type="submit" value="이미지수정" class="btn">
+	<input type="reset" value="다시작성 " class="btn">
+	<input type="button" value="목록보기" class="btn" onclick="location.href='imgboard.jsp?pageNum<%=pageNum%>'">
 </div>
-</div>
-<div id = "table_search" style="text-align: center">
-<%
-//각각 페이지에서.. 로그인후 이동해 올때.. 세션 id 전달받기 
-String id = (String)session.getAttribute("id");
-//세션값이 있으면, 수정, 삭제, 답글쓰기 버튼 보이게 설정
-if(id!= null){
-%>
-<input type="button" value="글수정" class="btn" onclick="location.href='update.jsp?pageNum=<%=pageNum%>&num=<%=DBnum%>'">
-<input type="button" value="글삭제" class="btn" onclick="location.href='delete.jsp?pageNum=<%=pageNum%>&num=<%=DBnum%>'">
-<% 
-}
-%>
-<input type="button" value="목록보기" class="btn" onclick="location.href='imgboard.jsp?pageNum=<%=pageNum%>'">
-</div>
+</form>
 
+</div>
+</div>
 </div>
 <!-- Copyright -->
 			<jsp:include page="bottom.jsp"/>

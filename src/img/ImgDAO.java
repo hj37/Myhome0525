@@ -359,7 +359,7 @@ public class ImgDAO {
 					//1, 2 디비연결 
 					con = getConnection();
 					//3 sql num에 해당하는 paaswd가져오기 
-					sql="select passwd from imgboard where num=?";
+					sql="select pwd from imgboard where num=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, dto.getNum());
 					//4 rs= 실행 저장 
@@ -370,9 +370,9 @@ public class ImgDAO {
 					//4. 실행 
 					// 		틀리면 check = 0
 					if(rs.next()) {
-						if(dto.getPwd().equals(rs.getString("passwd"))) {
+						if(dto.getPwd().equals(rs.getString("pwd"))) {
 							check = 1;
-							sql = "update imgboard set name=?,subject=?,fileName=?,fileRealName where num =?";
+							sql = "update imgboard set name=?,subject=?,fileName=?,fileRealName=? where num =?";
 							pstmt = con.prepareStatement(sql);
 							pstmt.setString(1, dto.getName());
 							pstmt.setString(2, dto.getSubject());

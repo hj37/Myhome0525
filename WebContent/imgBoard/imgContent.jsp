@@ -139,6 +139,10 @@
 		<td colspan="2"><%=DBDate %></td>
 	</tr>
 	<tr>
+		<td>글내용</td>
+		<td colspan="2" style="min-height: 200px; text-align: left"><%=DBContent %></td>
+	</tr>
+	<tr>
 		<td>이미지보기</td>
 		<td colspan="2" style="min-height: 200px; text-align: left">
 		<img src="../image/<%=FileRealName%>" style="width:600px; height:500px">
@@ -171,7 +175,7 @@ String id = (String)session.getAttribute("id");
 //세션값이 있으면, 수정, 삭제, 답글쓰기 버튼 보이게 설정
 if(id!= null){
 %>
-<input type="button" value="글수정" class="btn" onclick="location.href='update.jsp?pageNum=<%=pageNum%>&num=<%=DBnum%>'">
+<input type="button" value="글수정" class="btn" onclick="location.href='imgUpdate.jsp?pageNum=<%=pageNum%>&num=<%=DBnum%>'">
 <input type="button" value="글삭제" class="btn" onclick="location.href='delete.jsp?pageNum=<%=pageNum%>&num=<%=DBnum%>'">
 <% 
 }
