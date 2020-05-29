@@ -396,7 +396,30 @@ public class ImgDAO {
 				return check;
 			}
 			
-			
+			public void imgdeleteBoard(int num) {
+				int check = 0;
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql = "";
+				try {
+					//1, 2 디비연결 
+					con = getConnection();
+					//3 sql num에 해당하는 paaswd가져오기 
+					sql="delete from imgboard where num=?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, num);
+					//4 rs= 실행 저장 
+					pstmt.executeUpdate();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}finally {
+					if(rs != null) try {rs.close();} catch(SQLException ex) {}
+					if(pstmt != null) try {pstmt.close();} catch(SQLException ex) {}
+					if(con != null) try{con.close();}catch(SQLException ex) {}
+				}
+
+			}
 
 			
 			
